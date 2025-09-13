@@ -26,6 +26,7 @@ export default function Home() {
         <a
           href="https://solanium.io/"
           target="_blank"
+          rel="noopener noreferrer"
           className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800"
         >
           Join Presale
@@ -76,6 +77,7 @@ export default function Home() {
         <a
           href="https://solanium.io/"
           target="_blank"
+          rel="noopener noreferrer"
           className="bg-yellow-500 px-6 py-3 rounded-full font-bold hover:bg-yellow-600"
         >
           Buy Now
@@ -86,13 +88,13 @@ export default function Home() {
       <section id="community" className="py-20 px-6 bg-white text-black text-center">
         <h2 className="text-3xl font-bold mb-4">Join Our Community</h2>
         <div className="flex justify-center gap-6">
-          <a href="https://twitter.com" target="_blank" className="hover:underline">
+          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:underline">
             Twitter
           </a>
-          <a href="https://t.me" target="_blank" className="hover:underline">
+          <a href="https://t.me" target="_blank" rel="noopener noreferrer" className="hover:underline">
             Telegram
           </a>
-          <a href="/Happy_Litepaper_EN_Updated.pdf" target="_blank" className="hover:underline">
+          <a href="/Happy_Litepaper_EN_Updated.pdf" target="_blank" rel="noopener noreferrer" className="hover:underline">
             Whitepaper
           </a>
         </div>
