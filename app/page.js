@@ -62,7 +62,7 @@ export default function Home() {
               </a>
             </div>
             <div className="mt-6 text-sm text-zinc-400">
-              Total Supply: <span className="text-zinc-200 font-medium">776,082,801 HPY</span> • Decimals: 6
+              Total Supply: <span className="text-zinc-200 font-medium">977,287,523.281947 HPY</span> • Decimals: 6
             </div>
           </div>
 
@@ -220,7 +220,6 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 py-10 text-sm text-zinc-400 flex flex-col md:flex-row items-center justify-between gap-3">
           <div>© 2025 Happy Token. All rights reserved.</div>
           <div className="flex items-center gap-4">
-            <a href={`https://solscan.io/token/${TOKEN_ADDRESS}`} target="_blank" className="hover:text-zinc-200">Solscan</a>
             <a href="/Happy_Litepaper_EN_Updated.pdf" className="hover:text-zinc-200">Docs</a>
           </div>
         </div>
