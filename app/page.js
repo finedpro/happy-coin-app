@@ -1,12 +1,21 @@
-// app/page.js
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export default function Home() {
   const TOKEN_ADDRESS = "J84zxRAPo2HuzkBRWXYBmqJDSxs92ZFD4eioRgZ8vDUd";
+  const TOTAL_SUPPLY = "700,000,000 HPY";
+
   const [copied, setCopied] = useState(false);
+  const copyAddress = async () => {
+    try {
+      await navigator.clipboard.writeText(TOKEN_ADDRESS);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    } catch {}
+  };
 
   const tokenomics = [
     { label: "Presale", value: 25 },
@@ -16,18 +25,13 @@ export default function Home() {
     { label: "Reserves / Partnerships", value: 20 },
   ];
 
-  const copyAddress = async () => {
-    try {
-      await navigator.clipboard.writeText(TOKEN_ADDRESS);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch (e) {
-      console.error("Copy failed:", e);
-    }
-  };
+  // Parallax kerimisel hero taustale
+  const { scrollY } = useScroll();
+  const yOrb1 = useTransform(scrollY, [0, 600], [0, 80]);
+  const yOrb2 = useTransform(scrollY, [0, 600], [0, -60]);
 
   const Section = ({ id, title, children }) => (
-    <section id={id} className="border-t border-zinc-800">
+    <section id={id} className="border-t border-zinc-800/60">
       <div className="mx-auto max-w-7xl px-4 py-16">
         <h2 className="text-2xl md:text-3xl font-bold">{title}</h2>
         <div className="mt-6">{children}</div>
@@ -36,56 +40,70 @@ export default function Home() {
   );
 
   return (
-    <main className="min-h-screen w-full bg-gradient-to-b from-black via-zinc-900 to-black text-zinc-100">
+    <main className="min-h-screen w-full bg-gradient-to-b from-black via-zinc-950 to-black text-zinc-100 relative">
+      {/* Hõljuvad taustaorbid */}
+      <motion.div
+        style={{ y: yOrb1 }}
+        className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-yellow-500/20 blur-3xl"
+      />
+      <motion.div
+        style={{ y: yOrb2 }}
+        className="pointer-events-none absolute top-40 -left-24 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl"
+      />
+
       {/* NAV */}
-      <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/50 border-b border-zinc-800">
+      <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-black/40 border-b border-zinc-800/60">
         <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-2xl bg-yellow-300/90 grid place-items-center text-zinc-900 font-black">
+          <Link href="/" className="flex items-center gap-3 group">
+            <span className="h-9 w-9 rounded-2xl bg-yellow-300/90 grid place-items-center text-zinc-900 font-black shadow group-hover:scale-110 transition">
               :)
-            </div>
-            <div className="font-semibold">
+            </span>
+            <span className="font-semibold">
               Happy <span className="text-yellow-300">(HPY)</span>
-            </div>
-          </div>
+            </span>
+          </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm">
-            <Link href="#about" className="hover:text-white text-zinc-300">
-              About
-            </Link>
-            <Link href="#tokenomics" className="hover:text-white text-zinc-300">
-              Tokenomics
-            </Link>
-            <Link href="#roadmap" className="hover:text-white text-zinc-300">
-              Roadmap
-            </Link>
-            <Link href="#documents" className="hover:text-white text-zinc-300">
-              Docs
-            </Link>
-            <Link href="#community" className="hover:text-white text-zinc-300">
-              Community
-            </Link>
-            <Link
-              href="#presale"
-              className="rounded-xl bg-yellow-300 px-4 py-2 text-zinc-900 font-semibold hover:opacity-90"
-            >
+            <Link href="#about" className="hover:text-white text-zinc-300">About</Link>
+            <Link href="#tokenomics" className="hover:text-white text-zinc-300">Tokenomics</Link>
+            <Link href="#roadmap" className="hover:text-white text-zinc-300">Roadmap</Link>
+            <Link href="#documents" className="hover:text-white text-zinc-300">Docs</Link>
+            <Link href="#community" className="hover:text-white text-zinc-300">Community</Link>
+            <Link href="#presale" className="rounded-xl bg-yellow-300 px-4 py-2 text-zinc-900 font-semibold hover:opacity-90">
               Join Presale
             </Link>
           </nav>
         </div>
       </header>
 
+      {/* Ticker */}
+      <div className="border-b border-zinc-800/60 bg-black/40">
+        <div className="marquee py-2 text-xs text-zinc-300">
+          <span className="marquee-track">
+            Total Supply {TOTAL_SUPPLY} • Chain: Solana • Ticker: HPY • Presale on Solanium • Liquidity locked • DYOR •
+          </span>
+          <span className="marquee-track">
+            Total Supply {TOTAL_SUPPLY} • Chain: Solana • Ticker: HPY • Presale on Solanium • Liquidity locked • DYOR •
+          </span>
+        </div>
+      </div>
+
       {/* HERO */}
       <section className="relative">
         <div className="mx-auto max-w-7xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-              The community-driven token bringing
-              <span className="block text-yellow-300">joy to Solana.</span>
+              The community-driven token bringing{" "}
+              <span className="block bg-gradient-to-r from-yellow-300 via-amber-300 to-white bg-clip-text text-transparent">
+                joy to Solana.
+              </span>
             </h1>
             <p className="mt-6 text-zinc-300 max-w-prose">
-              Happy (HPY) is a simple yet strong community token on Solana.
-              Transparent tokenomics, a fair presale, and a clear roadmap for
-              2025–2026.
+              Happy (HPY) keeps crypto fun and fair: transparent tokenomics, a clean presale,
+              and a practical roadmap for 2025–2026.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Link
@@ -103,26 +121,25 @@ export default function Home() {
               </a>
             </div>
             <div className="mt-6 text-sm text-zinc-400">
-              Total Supply:{" "}
-              <span className="text-zinc-200 font-medium">
-                776,082,801 HPY
-              </span>{" "}
-              • Decimals: 6
+              Total Supply: <span className="text-zinc-200 font-medium">{TOTAL_SUPPLY}</span> • Decimals: 6
             </div>
-          </div>
+          </motion.div>
 
-          {/* Token address card with Copy button */}
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl">
-            <div className="text-xs uppercase text-zinc-400 tracking-wider">
-              Token Address
-            </div>
+          {/* Token address card with Copy */}
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.55, delay: 0.1 }}
+            className="rounded-3xl border border-zinc-800 bg-zinc-900/80 p-6 shadow-2xl"
+          >
+            <div className="text-xs uppercase text-zinc-400 tracking-wider">Token Address</div>
             <div className="mt-2 font-mono break-all text-sm text-zinc-100">
               {TOKEN_ADDRESS}
             </div>
             <div className="mt-4 flex gap-3 text-sm">
               <button
                 onClick={copyAddress}
-                className="rounded-xl bg-zinc-800 px-4 py-2 hover:bg-zinc-700 border border-zinc-700"
+                className="rounded-xl bg-zinc-800 px-4 py-2 hover:bg-zinc-700 border border-zinc-700 active:scale-95 transition"
               >
                 {copied ? "Copied!" : "Copy Address"}
               </button>
@@ -133,7 +150,7 @@ export default function Home() {
               <Stat label="Liquidity" value="65% locked 12m" />
               <Stat label="Vesting (Investors)" value="20% TGE, 80%/10m" />
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -141,12 +158,10 @@ export default function Home() {
       <Section id="about" title="About Happy">
         <div className="grid md:grid-cols-2 gap-10 items-start">
           <p className="text-zinc-300">
-            Happy (HPY) is a community-driven utility token built on the Solana
-            network. Our mission is to bring positivity, community spirit, and
-            real usability into crypto: from community events to DeFi utilities,
-            games and future NFT integrations.
+            Happy (HPY) is a community-first token on Solana built for good vibes and useful utilities.
+            We keep promises realistic and deliver iteratively.
           </p>
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6">
             <h3 className="font-semibold">Presale Highlights</h3>
             <ul className="mt-3 list-disc pl-5 space-y-2 text-zinc-300">
               <li>Soft cap: 50,000 USDC • Hard cap: 200,000 USDC</li>
@@ -160,51 +175,34 @@ export default function Home() {
 
       {/* TOKENOMICS */}
       <Section id="tokenomics" title="Tokenomics">
-        <p className="text-zinc-300">
-          Simple, transparent distribution designed for sustainable growth.
-        </p>
+        <p className="text-zinc-300">Simple, transparent distribution designed for sustainable growth.</p>
         <div className="mt-8 grid md:grid-cols-2 gap-8">
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6">
             <div className="grid gap-3">
-              {tokenomics.map((t) => (
+              {tokenomics.map((t, i) => (
                 <div key={t.label} className="flex items-center gap-4">
                   <div className="w-1/3 text-sm text-zinc-300">{t.label}</div>
                   <div className="flex-1 h-3 bg-zinc-800 rounded-full overflow-hidden">
-                    <div
+                    <motion.div
                       className="h-full bg-yellow-300"
-                      style={{ width: `${t.value}%` }}
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${t.value}%` }}
+                      viewport={{ once: true, amount: 0.6 }}
+                      transition={{ duration: 0.8, delay: 0.05 * i }}
                     />
                   </div>
-                  <div className="w-12 text-right text-sm text-zinc-200 font-medium">
-                    {t.value}%
-                  </div>
+                  <div className="w-12 text-right text-sm text-zinc-200 font-medium">{t.value}%</div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6">
             <h3 className="font-semibold">Key Numbers</h3>
             <ul className="mt-3 grid grid-cols-2 gap-3 text-sm">
-              <li className="rounded-xl bg-zinc-800 p-3">
-                Total Supply
-                <br />
-                <span className="font-semibold">776,082,801 HPY</span>
-              </li>
-              <li className="rounded-xl bg-zinc-800 p-3">
-                Decimals
-                <br />
-                <span className="font-semibold">6</span>
-              </li>
-              <li className="rounded-xl bg-zinc-800 p-3">
-                Chain
-                <br />
-                <span className="font-semibold">Solana (SPL)</span>
-              </li>
-              <li className="rounded-xl bg-zinc-800 p-3">
-                Ticker
-                <br />
-                <span className="font-semibold">HPY</span>
-              </li>
+              <li className="rounded-xl bg-zinc-800/70 p-3">Total Supply<br/><span className="font-semibold">{TOTAL_SUPPLY}</span></li>
+              <li className="rounded-xl bg-zinc-800/70 p-3">Decimals<br/><span className="font-semibold">6</span></li>
+              <li className="rounded-xl bg-zinc-800/70 p-3">Chain<br/><span className="font-semibold">Solana (SPL)</span></li>
+              <li className="rounded-xl bg-zinc-800/70 p-3">Ticker<br/><span className="font-semibold">HPY</span></li>
             </ul>
           </div>
         </div>
@@ -214,58 +212,25 @@ export default function Home() {
       <Section id="roadmap" title="Roadmap">
         <div className="grid md:grid-cols-2 gap-6">
           {[
-            {
-              title: "Q4 2025",
-              items: [
-                "Launch presale on Solanium",
-                "Listing on Raydium DEX",
-                "Community airdrops & marketing push",
-              ],
-            },
-            {
-              title: "Q1 2026",
-              items: [
-                "Staking platform for HPY holders",
-                "Expand community & referral programs",
-                "Solana ecosystem partnerships",
-              ],
-            },
-            {
-              title: "Q2 2026",
-              items: [
-                "NFT collection",
-                "Mini-game / gamification prototype",
-                "Start CEX listing discussions",
-              ],
-            },
-            {
-              title: "Q3 2026",
-              items: [
-                "DeFi integrations (lending/borrowing, farming)",
-                "Global community expansion & translations",
-                "More strategic partnerships",
-              ],
-            },
-            {
-              title: "Q4 2026",
-              items: [
-                "Ecosystem update (staking v2, NFT marketplace)",
-                "Target one major CEX listing",
-                "Publish 2027 roadmap",
-              ],
-            },
+            { title: "Q4 2025", items: ["Launch presale on Solanium", "Listing on Raydium DEX", "Community airdrops & marketing push"] },
+            { title: "Q1 2026", items: ["Staking platform for HPY holders", "Expand community & referral programs", "Solana ecosystem partnerships"] },
+            { title: "Q2 2026", items: ["NFT collection", "Mini-game / gamification prototype", "Start CEX listing discussions"] },
+            { title: "Q3 2026", items: ["DeFi integrations (lending/borrowing, farming)", "Global community expansion & translations", "More strategic partnerships"] },
+            { title: "Q4 2026", items: ["Ecosystem update (staking v2, NFT marketplace)", "Target one major CEX listing", "Publish 2027 roadmap"] },
           ].map((phase) => (
-            <div
+            <motion.div
               key={phase.title}
-              className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.35 }}
+              className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6"
             >
               <h3 className="font-semibold text-yellow-300">{phase.title}</h3>
               <ul className="mt-3 list-disc pl-5 space-y-2 text-zinc-300">
-                {phase.items.map((it) => (
-                  <li key={it}>{it}</li>
-                ))}
+                {phase.items.map((it) => <li key={it}>{it}</li>)}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
       </Section>
@@ -275,30 +240,27 @@ export default function Home() {
         <div className="grid sm:grid-cols-2 gap-4">
           <a
             href="/Happy_Litepaper_EN_Updated.pdf"
-            className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 hover:bg-zinc-800 transition"
+            className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition"
             target="_blank"
             rel="noopener noreferrer"
           >
             <div className="text-sm text-zinc-400">PDF</div>
             <div className="mt-1 font-semibold">Happy (HPY) Litepaper v1.1</div>
-            <div className="mt-2 text-zinc-300 text-sm">
-              Updated roadmap (Q4 2025–Q4 2026), tokenomics & presale info.
-            </div>
+            <div className="mt-2 text-zinc-300 text-sm">Updated roadmap (Q4 2025–Q4 2026), tokenomics & presale info.</div>
           </a>
-          <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 opacity-60">
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 opacity-60">
             <div className="text-sm text-zinc-400">One-pager</div>
             <div className="mt-1 font-semibold">Coming soon</div>
           </div>
         </div>
       </Section>
 
-      {/* PRESALE CTA */}
+      {/* PRESALE */}
       <Section id="presale" title="Join the Presale">
         <div className="grid md:grid-cols-2 gap-8 items-start">
           <div>
             <p className="text-zinc-300">
-              Presale will run on Solanium. Allocation: 200,000,000 HPY.
-              Currency: USDC (SPL).
+              Presale will run on Solanium. Allocation: 200,000,000 HPY. Currency: USDC (SPL).
             </p>
             <ul className="mt-4 space-y-2 text-zinc-300 text-sm">
               <li>• Soft cap: 50,000 USDC • Hard cap: 200,000 USDC</li>
@@ -306,7 +268,6 @@ export default function Home() {
               <li>• Liquidity: 65% to Raydium, locked 12 months</li>
             </ul>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              {/* Asenda oma Solanium IDO URL-iga */}
               <a
                 href="https://solanium.io/launchpad/your-hpy-link"
                 className="rounded-2xl bg-yellow-300 px-6 py-3 text-zinc-900 font-semibold text-center hover:opacity-90"
@@ -325,7 +286,7 @@ export default function Home() {
               </a>
             </div>
           </div>
-          <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
+          <div className="rounded-3xl border border-zinc-800 bg-zinc-900/70 p-6">
             <h3 className="font-semibold">How to participate</h3>
             <ol className="mt-3 list-decimal pl-5 space-y-2 text-zinc-300 text-sm">
               <li>Install Phantom or Solflare wallet and fund with USDC (SPL).</li>
@@ -336,17 +297,15 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* COMMUNITY (Discord eemaldatud) */}
+      {/* COMMUNITY – Discord eemaldatud */}
       <Section id="community" title="Join the Community">
-        <p className="text-zinc-300">
-          Follow updates, AMAs, airdrops and announcements.
-        </p>
+        <p className="text-zinc-300">Follow updates, AMAs, airdrops and announcements.</p>
         <div className="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
           <a
             href="https://twitter.com/yourhandle"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 hover:bg-zinc-800 transition"
+            className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition"
           >
             Twitter (X)
           </a>
@@ -354,7 +313,7 @@ export default function Home() {
             href="https://t.me/yourtelegram"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-2xl border border-zinc-800 bg-zinc-900 p-5 hover:bg-zinc-800 transition"
+            className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition"
           >
             Telegram
           </a>
@@ -362,16 +321,11 @@ export default function Home() {
       </Section>
 
       {/* FOOTER */}
-      <footer className="border-t border-zinc-800">
+      <footer className="border-t border-zinc-800/60">
         <div className="mx-auto max-w-7xl px-4 py-10 text-sm text-zinc-400 flex flex-col md:flex-row items-center justify-between gap-3">
-          <div>© 2025 Happy Token. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} Happy Token. All rights reserved.</div>
           <div className="flex items-center gap-4">
-            <a
-              href="/Happy_Litepaper_EN_Updated.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-zinc-200"
-            >
+            <a href="/Happy_Litepaper_EN_Updated.pdf" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-200">
               Docs
             </a>
           </div>
@@ -383,9 +337,15 @@ export default function Home() {
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-xl bg-zinc-800 p-3">
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.35 }}
+      className="rounded-xl bg-zinc-800/70 p-3"
+    >
       <div className="text-xs text-zinc-400">{label}</div>
       <div className="mt-1 font-semibold text-zinc-100">{value}</div>
-    </div>
+    </motion.div>
   );
 }
