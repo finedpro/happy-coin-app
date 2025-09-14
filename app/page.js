@@ -143,6 +143,9 @@ export default function Home() {
           {[
             { title: "Q4 2025", items: ["Launch presale on Solanium", "Listing on Raydium DEX", "Community airdrops & marketing push"] },
             { title: "Q1 2026", items: ["Staking platform for HPY holders", "Expand community & referral programs", "Solana ecosystem partnerships"] },
+            { title: "Q2 2026", items: ["NFT collection", "Mini-game / gamification prototype", "Start CEX listing discussions"] },
+            { title: "Q3 2026", items: ["DeFi integrations (lending/borrowing, farming)", "Global community expansion & translations", "More strategic partnerships"] },
+            { title: "Q4 2026", items: ["Ecosystem update (staking v2, NFT marketplace)", "Target one major CEX listing", "Publish 2027 roadmap"] },
           ].map((phase) => (
             <div key={phase.title} className="rounded-3xl border border-zinc-800 bg-zinc-900 p-6">
               <h3 className="font-semibold text-yellow-300">{phase.title}</h3>
@@ -180,16 +183,12 @@ export default function Home() {
       {/* COMMUNITY */}
       <Section id="community" title="Join the Community">
         <p className="text-zinc-300">Follow updates, AMAs, airdrops and announcements.</p>
-        <div className="mt-6 grid sm:grid-cols-3 gap-4 text-sm">
+        <div className="mt-6 grid sm:grid-cols-2 gap-4 text-sm">
           <a href="https://x.com/HPYHAPPYHPY" target="_blank" rel="noopener noreferrer"
             className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition">
             Twitter (X)
           </a>
-          <a href="https://t.me/HappyCoinOfficial" target="_blank" rel="noopener noreferrer"
-            className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition">
-            Telegram
-          </a>
-          <a href="https://discord.gg/WaFUKEHS" target="_blank" rel="noopener noreferrer"
+          <a href="https://discord.gg/7sFPDek7" target="_blank" rel="noopener noreferrer"
             className="rounded-2xl border border-zinc-800 bg-zinc-900/70 p-5 hover:bg-zinc-800 transition">
             Discord
           </a>
