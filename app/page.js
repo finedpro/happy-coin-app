@@ -170,7 +170,7 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* PRESALE CTA */}
+      {/* PRESALE */}
       <Section id="presale" title="Join the Presale">
         <p className="text-zinc-300">
           Presale will run on Solanium. Allocation: 200,000,000 HPY. Currency: USDC (SPL).
