@@ -39,3 +39,20 @@ body {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
+/* --- lively extras --- */
+
+/* marquee (jooksuriba) */
+.marquee{overflow:hidden;white-space:nowrap;mask-image:linear-gradient(to right,transparent,black 10%,black 90%,transparent)}
+.marquee-track{display:inline-block;padding-left:2rem;animation:marquee 18s linear infinite}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* õrn hõljuv liikumine */
+@keyframes floaty{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+.floaty{animation:floaty 6s ease-in-out infinite}
+
+/* pulsev helendus “glow” ornamentidele */
+.glow{filter:blur(60px);opacity:.5}
+
+/* väike viivitus utilid, kui tailwindis puudub */
+.delay-200{animation-delay:.2s}
+.delay-500{animation-delay:.5s}
